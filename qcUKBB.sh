@@ -9,7 +9,7 @@ for chr in 21  22; #{1..22};
 	do
 		plink2  --bgen $genotype/ukb_imp_chr${chr}_v3.bgen  \
 			ref-first   \
-			--sample $genotype/ukb_imp_chr${chr}_v3.sample  \
+			--sample $genotype/ukb_imp_chr21_v3.sample  \
 			--maf 0.05  \
 			--mac 10    \
 			--write-snplist \
