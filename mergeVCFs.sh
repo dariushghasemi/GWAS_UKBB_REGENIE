@@ -9,7 +9,11 @@ for chr in $(seq 21 22);
 	do echo "/scratch/UKBB/imputed-500k_V3/test/ukb_imp_chr${chr}_v3.pruned.vcf.gz" >> myVCFnames.txt
 done
 
-bcftools concat --naive -f myVCFnames.txt --output-type v -o /scratch/UKBB/imputed-500k_V3/test/concatedated_chr21_22_plink.pruned.vcf.gz
+bcftools concat --naive   \
+				-f myVCFnames.txt  \
+				--output-type v \
+				-o /scratch/UKBB/imputed-500k_V3/test/concatedated_chr21_22_plink.pruned.vcf.gz
+
 bcftools concat -Oz  /scratch/UKBB/imputed-500k_V3/test/converted/ukb_imp_chr21_v3.pruned0.vcf.gz   \
 		     /scratch/UKBB/imputed-500k_V3/test/converted/ukb_imp_chr22_v3.pruned0.vcf.gz   \
 		     -o concatedated_chr21_22_plink.pruned0.vcf.gz > outVCFmerge.txt
