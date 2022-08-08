@@ -32,7 +32,7 @@ Running GWAS on Kidney's latent phenotypes via REGENIE v1.0.6.7.
 
 - Step1 needs a sample file containing all the sample IID and FIDS, exactly like mentione don the documentation website of the REGENIE, where I used bcftools to query them (n=371,535). and modified it to make it compatible with REGENIE desired format.
 
-- Step1 is running now using slow partion on the EURAC servers and the results of the it (prediction files) would be ready in a couple of hours (August 8, 2022 | Wednesday 18:50).
+- Step1 is now running using slow partition on the EURAC servers and the results of the it (prediction files) would be ready in a couple of hours (August 8, 2022 | Wednesday 18:50).
 
 Dariush
 
