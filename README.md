@@ -22,6 +22,22 @@ Running GWAS on Kidney's latent phenotypes via REGENIE v1.0.6.7.
 - Persumabley the CHRs have been correctly converted to VCF file using Plink2.
 - Now we can merge the QCed VCF files and run the first step of REGENIE GWAS. First I need to check and test the VCFmerge function for CHR21 and CHR22. If it worked, I would stick to it and proceed for Step 1 of REGENIE GWAS.
 
+- By double checking the samples number in the merged VCF file, Dosage levels, and some of the other factors in the merged VCF file, we can carry on towards Step1.
+
+- But there is still one last step in preparation of the genotype file which is changing the merged VCF file to BGEN and indexing it. 
+
+- We re-converted again the merged VCF file (but nor separate ones) into a signle BGEN file and used bgenix to index it.
+
+- Now that I'm writing, we ran the Step1 of the GWAS using REGENIE using the paameters in this script file "GWAS_Regenie_step1.sh".
+
+- Step1 needs a sample file containing all the sample IID and FIDS, exactly like mentione don the documentation website of the REGENIE, where I used bcftools to query them (n=371,535). and modified it to make it compatible with REGENIE desired format.
+
+- Step1 is running now using slow partion on the EURAC servers and the results of the it (prediction files) would be ready in a couple of hours (August 8, 2022 | Wednesday 18:50).
+
+Dariush
+
+______________________________________________________________________
+______________________________________________________________________
 ## DNAnexus
 
 - The UK Biobank dataset is a uniquely rich resource containing over 10 petabytes of genetic and health data from over 500,000 volunteer participants. With the launch of RStudio Workbench Trial Version on the Research Analysis Platform, approved UK Biobank researchers can now analyze this extensive dataset using their programming language of choice.
