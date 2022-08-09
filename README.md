@@ -43,3 +43,13 @@ ______________________________________________________________________
 - The UK Biobank dataset is a uniquely rich resource containing over 10 petabytes of genetic and health data from over 500,000 volunteer participants. With the launch of RStudio Workbench Trial Version on the Research Analysis Platform, approved UK Biobank researchers can now analyze this extensive dataset using their programming language of choice.
 
 - Experts from RStudio, UK Biobank and DNAnexus walk through using RStudio Workbench to analyze the extensive UK Biobank dataset, available to all UK Biobank researchers free of charge until August 31. This webinar provides an overview on how to create notebooks, dashboards and incorporate Shiny apps all in the cloud on the Research Analysis Platform. -> https://www.youtube.com/watch?v=iy22sxlj5Ik
+
+______________________________________________________________________
+______________________________________________________________________
+
+#### Example script 
+- Example usage from command line  
+```bash
+# example usage for ... :
+bcftools query -l filename.vcf.gz > UKBB.sample
+```
