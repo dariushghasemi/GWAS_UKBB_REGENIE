@@ -2,7 +2,7 @@
 
 Genotype=~/projects/UKBB_Ryo
 Phenotype=/home/rfujii/ukbb/00_data
-Output=~/projects/gwas/Regenie/output
+Output=~/projects/UKBB_Ryo/output
 #Samples=/scratch/UKBB/imputed-500k_V3/ukb_imp_chr21_v3.sample
 #pheno_Pheno1_Pheno2.txt
   #--lowmem \
