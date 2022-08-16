@@ -18,8 +18,11 @@ Running GWAS on Kidney's latent phenotypes via REGENIE v1.0.6.7.
 - Additionally, I directly piped the converted file in VCF format to vcftools for pruning SNPs by MAF/MAC, and then to bcftools for reheadering file. So, they all worked well.
 
 - It's been around one week and the submitted slurm-jobs with 4 seperate CPUs and mem-per-cpu=16Gb are still being done on the EURAC servers!!! This just file format conversion and initial SNPs pruning (QC process)!!! GWAS is remained!!!  :|
+
 - I'm dubious wheather bgenix could have correctly converted the bgen files to VCF, as I have found small number of SNPs remained for some of the CHRs after filtering SNPs (MAF05/AC10)! I'm now trying again to convert BGEN->VCF with Plink2 and compare the generated VCF file with the bgenix VCF file for the same CHR in terms of size, number of SNPs, and etc. 
+
 - Persumabley the CHRs have been correctly converted to VCF file using Plink2.
+
 - Now we can merge the QCed VCF files and run the first step of REGENIE GWAS. First I need to check and test the VCFmerge function for CHR21 and CHR22. If it worked, I would stick to it and proceed for Step 1 of REGENIE GWAS.
 
 - By double checking the samples number in the merged VCF file, Dosage levels, and some of the other factors in the merged VCF file, we can carry on towards Step1.
@@ -34,7 +37,16 @@ Running GWAS on Kidney's latent phenotypes via REGENIE v1.0.6.7.
 
 - Step1 is now running using slow partition on the EURAC servers and the results of the it (prediction files) would be ready in a couple of hours (Started on Wednesday 18:50, August 8, 2022 --- Finished on Friday 14:29, August 12, 2022).
 
-- We now set up step 2 (association tests) and lunch the jobs at servers using slurm (Started on Friday 18:50, August 12, 2022 --- Finished on ...).
+- We now set up step 2 (association tests) and lunch the jobs at servers using slurm (Started on Friday 18:50, August 12, 2022 --- Finished on Friday 01:23, August 13, 2022).
+
+- You can generate qqplot.R to generate the quality control plots simultaneously for the GWAS summary results of Pheno1 and Pheno2 using these commands:
+
+'''bash
+./qqplot.R ~/projects/UKBB_Ryo/output/step2_UKBB_Pheno1_with_AGE_SEX_PCs_firth_Pheno1.regenie.gz Pheno1 ~/projects/UKBB_Ryo
+./qqplot.R ~/projects/UKBB_Ryo/output/step2_UKBB_Pheno1_with_AGE_SEX_PCs_firth_Pheno2.regenie.gz Pheno2 ~/projects/UKBB_Ryo
+'''
+
+- Having looked at the MH and QQ plots, we can proceed to run the GWAS analysis on the entire chromosomes. But this time we like to make use of the [NextFlow pipeline] (https://github.com/genepi/nf-gwas) to make our life easier before and after running GWAS.
 
 Dariush
 
