@@ -41,12 +41,12 @@ Running GWAS on Kidney's latent phenotypes via REGENIE v1.0.6.7.
 
 - You can generate qqplot.R to generate the quality control plots simultaneously for the GWAS summary results of Pheno1 and Pheno2 using these commands:
 
-'''bash
+```bash
 ./qqplot.R ~/projects/UKBB_Ryo/output/step2_UKBB_Pheno1_with_AGE_SEX_PCs_firth_Pheno1.regenie.gz Pheno1 ~/projects/UKBB_Ryo
 ./qqplot.R ~/projects/UKBB_Ryo/output/step2_UKBB_Pheno1_with_AGE_SEX_PCs_firth_Pheno2.regenie.gz Pheno2 ~/projects/UKBB_Ryo
-'''
+```
 
-- Having looked at the MH and QQ plots, we can proceed to run the GWAS analysis on the entire chromosomes. But this time we like to make use of the [NextFlow pipeline] (https://github.com/genepi/nf-gwas) to make our life easier before and after running GWAS.
+- Having looked at the MH and QQ plots, we can proceed to run the GWAS analysis on the entire chromosomes. But this time we like to make use of the [NextFlow pipeline](https://github.com/genepi/nf-gwas) to make our life easier before and after running GWAS.
 
 Dariush
 
