@@ -9,17 +9,22 @@ Running GWAS on Kidney's latent phenotypes via REGENIE v1.0.6.7.
 
 - Before merging the converted plink files, we need to store their names in text file, here called "myfilesnames.txt".
 
-- Then, we use plink2 to merged the QC-ed plink files. This merged file consisting all the the autosomes genotypes is going to be used for step1 of GWAS using REGENIE where we need to find the most important SNPs across all SNPs of the study to make a prediction file for Step 2 og GWAS.
+- Then, we use plink2 to merged the QC-ed plink files. This merged file consisting all the the autosomes genotypes is going to be used for step1 of GWAS using REGENIE where we need to find the most important SNPs across all SNPs of the study to make a prediction file for Step 2 of GWAS.
 
-- File format conversion using plink2 was unsuccessful! Plink couldn't merge multiallelic SNPs positions using genotype input in plink format. 
+- File format conversion using plink2 was unsuccessful! Plink couldn't merge multiallelic SNPs positions using genotype input in plink format. -> Jobs were finished on June 25, 2022.
+______________________________________________________________________
 
 - I now move on by taking the alternative approach which utilizes bgenix tool to convert the genotype files from BGEN to VCF file. One can also makes use of plink2 to conduct the conversion if they don't have bgenix installed on their Unix machine. (As in parallel I tested BGEN to VCF format conversion via Plink2 -also filtered SNPs based on MAF/MAC- and it worked too.)
 
 - Additionally, I directly piped the converted file in VCF format to vcftools for pruning SNPs by MAF/MAC, and then to bcftools for reheadering file. So, they all worked well.
 
-- It's been around one week and the submitted slurm-jobs with 4 seperate CPUs and mem-per-cpu=16Gb are still being done on the EURAC servers!!! This just file format conversion and initial SNPs pruning (QC process)!!! GWAS is remained!!!  :|
+- It's been around one week and the submitted slurm-jobs with 4 seperate CPUs and mem-per-cpu=16Gb are still being done on the EURAC servers!!! This just file format conversion and initial SNPs pruning (QC process)!!! GWAS is remained!!! -> Jobs were started on June 29, 2022 and were finished at 20:12' on July 4, 2022.
 
-- I'm dubious wheather bgenix could have correctly converted the bgen files to VCF, as I have found small number of SNPs remained for some of the CHRs after filtering SNPs (MAF05/AC10)! I'm now trying again to convert BGEN->VCF with Plink2 and compare the generated VCF file with the bgenix VCF file for the same CHR in terms of size, number of SNPs, and etc. 
+- I found that Bgenix is not suitable for BGEN->VCF format conversion when there are some multiallelic regions in your genotype file. Multiallelic SNPs put the files conversion into trubble. So, we need an alternative tool which is plink2 in this case in order to do the conversion.
+
+- I'm dubious wheather bgenix could have correctly converted the bgen files to VCF, as I have found small number of SNPs remained for some of the CHRs after filtering SNPs (MAF05/AC10)! 
+
+- I'm now trying again to convert BGEN->VCF with Plink2 and compare the generated VCF file with the bgenix VCF file for the same CHR in terms of size, number of SNPs, and etc. -> Jobs were finished at 13:43' on July 12, 2022.
 
 - Persumabley the CHRs have been correctly converted to VCF file using Plink2.
 
