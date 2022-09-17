@@ -53,6 +53,16 @@ ______________________________________________________________________
 
 - Having looked at the MH and QQ plots, we can proceed to run the GWAS analysis on the entire chromosomes. But this time we like to make use of the [NextFlow pipeline](https://github.com/genepi/nf-gwas) to make our life easier before and after running GWAS.
 
+- We have still problem with format conversion for CHR2. Plink2 returns an error and cannot ern the pgen to vcf file (31 August, 2022). Made a mistake. The file was converted on Aug 25.
+
+- I've realized the header columns (perhaps individuals id was corropted for CHR12 which was primarily converted to VCF and QC-ed using Bgenix). It means that we need to reconvert the rest of the CHRs, 12 to 20, using the same tool Plink2 for homoginity (12 September, 2022).
+
+- Reconversion of all incorrupted CHR files were finished. Index files were also created (13 September, 2022).
+
+- Now, vcf merge is running using 6 CPU and 16GB RAM once at a time (14-16 September, 2022).
+
+- 11 chrs were merged so far (17-Sep-2022, 23:38).
+
 Dariush
 
 ______________________________________________________________________
