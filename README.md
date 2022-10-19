@@ -1,5 +1,5 @@
 # GWAS_UKBB_REGENIE
-Running GWAS on Kidney's latent phenotypes via REGENIE v1.0.6.7.
+Running GWAS on Kidney's latent phenotypes via REGENIE v3.1.3.gz!
 
 - In qcUKBB.sh you'll find the commands for format conversion of UKBB genotype file (BGEN) using plink.
 
@@ -12,7 +12,6 @@ Running GWAS on Kidney's latent phenotypes via REGENIE v1.0.6.7.
 - Then, we use plink2 to merged the QC-ed plink files. This merged file consisting all the the autosomes genotypes is going to be used for step1 of GWAS using REGENIE where we need to find the most important SNPs across all SNPs of the study to make a prediction file for Step 2 of GWAS.
 
 - File format conversion using plink2 was unsuccessful! Plink couldn't merge multiallelic SNPs positions using genotype input in plink format. -> Jobs were finished on June 25, 2022.
-______________________________________________________________________
 
 - I now move on by taking the alternative approach which utilizes bgenix tool to convert the genotype files from BGEN to VCF file. One can also makes use of plink2 to conduct the conversion if they don't have bgenix installed on their Unix machine. (As in parallel I tested BGEN to VCF format conversion via Plink2 -also filtered SNPs based on MAF/MAC- and it worked too.)
 
@@ -56,15 +55,91 @@ ______________________________________________________________________
 - We have still problem with format conversion for CHR2. Plink2 returns an error and cannot ern the pgen to vcf file (31 August, 2022). Made a mistake. The file was converted on Aug 25.
 
 - I've realized the header columns (perhaps individuals id was corropted for CHR12 which was primarily converted to VCF and QC-ed using Bgenix). It means that we need to reconvert the rest of the CHRs, 12 to 20, using the same tool Plink2 for homoginity (12 September, 2022).
+```bash
+cat out2VCFbyPlink.txt | tail -2 | sarrayscript -c 4 --mem-per-cpu 65536 -J 2VCF
+```
 
 - Reconversion of all incorrupted CHR files were finished. Index files were also created (13 September, 2022).
 
 - Now, vcf merge is running using 6 CPU and 16GB RAM once at a time (14-16 September, 2022).
+```bash
+#Rename the VCF file names
+for chr in {1..22}; do mv /scratch/UKBB/imputed-500k_V3/test/ukb_imp_chr${chr}_v3_pruned_MAF.05_MAC10.vcf.gz /scratch/UKBB/imputed-500k_V3/test/ukb_imp_chr${chr}_v3_pruned_MAF05_MAC10.vcf.gz; done
+#Rename the VCF index file names
+for chr in {1..22}; do mv /scratch/UKBB/imputed-500k_V3/test/ukb_imp_chr${chr}_v3_pruned_MAF05_MAC10.vcf.gz.tbi$chr /scratch/UKBB/imputed-500k_V3/test/ukb_imp_chr${chr}_v3_pruned_MAF05_MAC10.vcf.gz.tbi; done
+#Storing the VCF file names
+for chr in {1..22}; do echo '/scratch/UKBB/imputed-500k_V3/test/ukb_imp_chr'${chr}'_v3_pruned_MAF05_MAC10.vcf.gz'; done >> /scratch/UKBB/imputed-500k_V3/test/myVCFnames.txt
+#Generating the commands for file conversion
+echo bcftools concat -Oz $(paste -sd '\t' myVCFnames.txt)  -o /scratch/UKBB/imputed-500k_V3/test/ukb_imp_allCHRs_v3_pruned_MAF05_MAC10.vcf.gz > outVCFmerge.txt
+#Run the commands on servers
+cat outVCFmerge.txt | sarrayscript  -p batch -c 6  --mem-per-cpu=65536
+````
 
-- 11 chrs were merged so far (17-Sep-2022, 23:38).
+- 11 chrs were merged so far (17-Sep-2022, 23:38). All the chrs merged successfully by Monday 8:5 AM (19 September, 2022). Now index file is being created (20 September, 2022)
+```bash
+cat tabix.txt | tail -1 | sarrayscript -p batch -c 4 --mem-per-cpu=16384 -J indexing
+```
+
+- The final conversion of the files has to do with converting the merged file containing entire autosomes to plink format for step 1 of GWAS in REGENIE. Here is the command being run on the servers (18:30, 21-Sep-2022):
+```bash
+cat qcUKBB.sh | tail -1 | sarrayscript -p batch -c 12 --mem-per-cpu=65536 -J 2plink
+```
+- We need to separate SNP-array genotype from imouted SNPs. REGENIE does not recommand conducting step 1 on >1M  variants! We need to find a way to do so.
+
+- We can proceed by exclusing the imputed variants and only keep 820K gentyped SNPs in UKBB. We use plink to extract these array SNPs and take them imput for step 1 prediction! (3-Oct-2022)
+
+```bash
+#making SNPs region file to extract genotyped variants from plink file
+cat genotypedSNPs_without_END.txt | awk '{print $1 "\t" $2 "\t" $2}' > genotypedSNPs.txt
+
+#extract genotyped variants from plink file
+echo 'plink2 --bfile /scratch/UKBB/imputed-500k_V3/ukb_imp_allCHRs_v3_pruned_MAF05_MAC10 --extract range ~/projects/UKBB_Ryo/genotypedSNPs.txt --make-bed --out genotypedUKBB' | sarrayscript -p batch -c 4 --mem-per-cpu 17000 -J "extraction" 
+```
+- Extraction of the genotyped SNPs started to run on servers on 8:30 PM Wednesday 05-Oct-2022.
+
+- Sample files:
+```bash
+# Number of samples in genotype file
+cat genotypedUKBB.sample | wc -l
+487,411
+
+# Number of samples in phenotype
+tail -n +2 /home/rfujii/ukbb/00_data/pheno.txt | awk '{print $1,$2}' | wc -l
+468,103
+
+# Common samples in genotype and phenotype files
+grep -wFf pheno.sample genotypedUKBB.sample | wc -l
+462,935
+```
+
+- Step 1 of GWAS using REGENIE on the UKBB genotyped SNPs started to run on servers on 7:25 PM Thursday 06-Oct-2022.
+```bash
+cat out_step1.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_step1.sh
+```
+- Step 1 is finished on Saturday 12:45 AM on 07-Oct-2022.
+
+- Step 2 of GWAS using REGENIE on the UKBB imputed+genotyped SNPs started to run on servers on 10:35 AM Monday 10-Oct-2022.
+```bash
+cat out_step2.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_step2.sh
+```
+
+- Run step 1 and step 2 in one job:
+```bash
+#add "&&" to the end of step 1
+cat out_step1.txt | awk '{print $0 "\t" "&&"}' > out_step1.txt 
+
+#Combine two command lines one after another
+(cat out_step1.txt  &&  cat out_step2.txt) > out_step1_2.txt
+
+#Run on servers
+cat out_step1_2.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_step1&2.sh
+```
+
+- Still trying to figure out what's wrong with the sample file!! Step 1 is pending to recieve a correct sample ids compaible with QC-ed genotyped and phenoyped data (12-Oct-2022 - 14-Oct-2022 - Fucking .sample file!!!!! 18-10-2022). 
+
+- By changing the order of the columns and seperating the sample ids in .fam file, the step 1 of REGENIE lunched successfully! Oh, finally done ... (lunching time: Wed 17:50, 19-10-2022; finishing time: ...)
 
 Dariush
-
 ______________________________________________________________________
 ______________________________________________________________________
 ## DNAnexus
