@@ -97,8 +97,16 @@ echo 'plink2 --bfile /scratch/UKBB/imputed-500k_V3/ukb_imp_allCHRs_v3_pruned_MAF
 ```
 - Extraction of the genotyped SNPs started to run on servers on 8:30 PM Wednesday 05-Oct-2022.
 
-- Sample files:
+#### Sample file
+- Creating sample file from VCF to be used for REGENIE GWAS steps:
+
 ```bash
+# creating .sample file from VCF:
+bcftools query -l filename.vcf.gz > UKBB.sample
+
+# creating .sample file from plink .fam file:
+echo -e "ID_1\tID_2\tmissing\n0\t0\t0" | (cat - genotypedUKBB.fam | cut -f1-3) > genotypedUKBB.sample
+
 # Number of samples in genotype file
 cat genotypedUKBB.sample | wc -l
 487,411
@@ -112,6 +120,7 @@ grep -wFf pheno.sample genotypedUKBB.sample | wc -l
 462,935
 ```
 
+#### Running GWAS using REGENIE
 - Step 1 of GWAS using REGENIE on the UKBB genotyped SNPs started to run on servers on 7:25 PM Thursday 06-Oct-2022.
 ```bash
 cat out_step1.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_step1.sh
@@ -148,12 +157,3 @@ ______________________________________________________________________
 
 - Experts from RStudio, UK Biobank and DNAnexus walk through using RStudio Workbench to analyze the extensive UK Biobank dataset, available to all UK Biobank researchers free of charge until August 31. This webinar provides an overview on how to create notebooks, dashboards and incorporate Shiny apps all in the cloud on the Research Analysis Platform. -> https://www.youtube.com/watch?v=iy22sxlj5Ik
 
-______________________________________________________________________
-______________________________________________________________________
-
-#### Example script 
-- Example usage from command line  
-```bash
-# example usage for ... :
-bcftools query -l filename.vcf.gz > UKBB.sample
-```
