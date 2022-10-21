@@ -147,6 +147,7 @@ cat out_step1_2.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_ste
 - Still trying to figure out what's wrong with the sample file!! Step 1 is pending to recieve a correct sample ids compaible with QC-ed genotyped and phenoyped data (12-Oct-2022 - 14-Oct-2022 - Fucking .sample file!!!!! 18-10-2022). 
 
 - By changing the order of the columns and seperating the sample ids in .fam file, the step 1 of REGENIE lunched successfully! Oh, finally done ... (lunching time: Wed 17:50, 19-10-2022; finishing time: ...)
+Step 1 of GWAS still ongoing 21-10-2022, Friday 19:10
 
 Dariush
 ______________________________________________________________________
