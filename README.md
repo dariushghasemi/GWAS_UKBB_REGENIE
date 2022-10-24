@@ -121,33 +121,21 @@ grep -wFf pheno.sample genotypedUKBB.sample | wc -l
 ```
 
 #### Running GWAS using REGENIE
-- Step 1 of GWAS using REGENIE on the UKBB genotyped SNPs started to run on servers on 7:25 PM Thursday 06-Oct-2022.
+- Still trying to figure out what's wrong with the sample file!! Step 1 is pending to recieve a correct sample ids compaible with QC-ed genotyped and phenoyped data (12-Oct-2022 - 14-Oct-2022 - Fucking .sample file!!!!! 18-10-2022). 
+
+- By changing the order of the columns and seperating the sample ids in .fam file, the step 1 of GWAS using REGENIE on the UKBB genotyped SNPs lunched successfully! Oh, finally done (lunching time: Wed 17:50, 19-10-2022; finishing time: Saturday 07:02, 22-Oct-2022).
+
 ```bash
 cat out_step1.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_step1.sh
 ```
-- Step 1 is finished on Saturday 12:45 AM on 07-Oct-2022.
 
-- Step 2 of GWAS using REGENIE on the UKBB imputed+genotyped SNPs started to run on servers on 10:35 AM Monday 10-Oct-2022.
+- Step 2 of GWAS using REGENIE on the UKBB imputed+genotyped SNPs lunched using parallelization distributing in 22 jobs running on the servers (lunching time: Monday 17:30, 24-Oct-2022).
+
 ```bash
-cat out_step2.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_step2.sh
+cat out_step2.txt | sarrayscript -p batch --mem-per-cpu=8192 -J UKBB_step2.sh
 ```
 
-- Run step 1 and step 2 in one job:
-```bash
-#add "&&" to the end of step 1
-cat out_step1.txt | awk '{print $0 "\t" "&&"}' > out_step1.txt 
-
-#Combine two command lines one after another
-(cat out_step1.txt  &&  cat out_step2.txt) > out_step1_2.txt
-
-#Run on servers
-cat out_step1_2.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_step1&2.sh
-```
-
-- Still trying to figure out what's wrong with the sample file!! Step 1 is pending to recieve a correct sample ids compaible with QC-ed genotyped and phenoyped data (12-Oct-2022 - 14-Oct-2022 - Fucking .sample file!!!!! 18-10-2022). 
-
-- By changing the order of the columns and seperating the sample ids in .fam file, the step 1 of REGENIE lunched successfully! Oh, finally done ... (lunching time: Wed 17:50, 19-10-2022; finishing time: ...)
-Step 1 of GWAS still ongoing 21-10-2022, Friday 19:10
+#### Controlling genomic inflation of the GWAS summary results
 
 Dariush
 ______________________________________________________________________
@@ -158,3 +146,12 @@ ______________________________________________________________________
 
 - Experts from RStudio, UK Biobank and DNAnexus walk through using RStudio Workbench to analyze the extensive UK Biobank dataset, available to all UK Biobank researchers free of charge until August 31. This webinar provides an overview on how to create notebooks, dashboards and incorporate Shiny apps all in the cloud on the Research Analysis Platform. -> https://www.youtube.com/watch?v=iy22sxlj5Ik
 
+
+- If you'd like to un step 1 and step 2 in one job (but still not verified):
+
+```bash
+
+
+#Run on servers
+
+```
