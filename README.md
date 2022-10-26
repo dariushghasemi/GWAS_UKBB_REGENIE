@@ -129,7 +129,7 @@ grep -wFf pheno.sample genotypedUKBB.sample | wc -l
 cat out_step1.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_step1.sh
 ```
 
-- Step 2 of GWAS using REGENIE on the UKBB imputed+genotyped SNPs lunched using parallelization distributing in 22 jobs running on the servers (lunching time: Monday 17:30, 24-Oct-2022).
+- Step 2 of GWAS using REGENIE on the UKBB imputed+genotyped SNPs lunched using parallelization distributing in 22 jobs running on the servers (lunching time: Monday 17:30, 24-Oct-2022; Step 2 is still ongoing after two days for the CHR1:12 | Wed 18:16, 26-Oct-2022).
 
 ```bash
 cat out_step2.txt | sarrayscript -p batch --mem-per-cpu=8192 -J UKBB_step2.sh
