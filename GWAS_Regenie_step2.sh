@@ -25,7 +25,7 @@ echo "regenie   \
 	--pred ${Output}/step1_fit_UKBB_AllChrs_with_AGE_SEX_PCs_pred.list \
 	--minMAC 100 \
 	--bsize 1000 \
-	--out ${Output}/step2_UKBB_Pheno1_with_AGE_SEX_PCs \
+	--out ${Output}/step2_UKBB_with_AGE_SEX_PCs_chr${chr} \
 	--gz "
 done
 
