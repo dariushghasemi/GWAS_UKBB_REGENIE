@@ -136,8 +136,12 @@ cat out_step2.txt | sarrayscript -p batch --mem-per-cpu=8192 -J UKBB_step2.sh
 ```
 
 #### Controlling genomic inflation of the GWAS summary results
+# QQ- and Manhattan plots
+```bash
+sbatch --mem=32768 --wrap './qqplot.R ~/projects/UKBB_Ryo/output/GWAS_Pheno2.regenie.gz Pheno2 ~/projects/UKBB_Ryo/output'
+```
 
-Dariush
+Dariush | 02.11.2022
 ______________________________________________________________________
 ______________________________________________________________________
 ## DNAnexus
