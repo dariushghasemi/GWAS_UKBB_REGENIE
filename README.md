@@ -1,12 +1,13 @@
 # GWAS_UKBB_REGENIE
 Running GWAS on Kidney's latent phenotypes via REGENIE v3.1.3.gz!
 
-* [Sample file](#sample file)
-* [Running GWAS using REGENIE](#running GWAS using REGENIE)
-* [Controlling genomic inflation of the GWAS summary results](#controlling genomic inflation of the GWAS summary results)
-* [Genotype preparation](#genotype preparation)
+* [Genotype preparation](#genotype-preparation)
+* [Sample file](#sample-file)
+* [Running GWAS using REGENIE](#running-GWAS-using-REGENIE)
+* [Controlling genomic inflation of the GWAS summary results](#controlling-genomic-inflation-in-GWAS-results)
+ * [QQ- and Manhattan plots](#QQ-and-Manhattan-plots)
 
-#### Genotype preparation
+### Genotype preparation
 - In qcUKBB.sh you'll find the commands for format conversion of UKBB genotype file (BGEN) using plink.
 
 - Fo Step 1 of GWAS via REGENIE, we need a merged file contating all the genotypes from autosomes (chromosome 1 to 22) in one single file in BGEN or plink{.bed/.bam/.fam) formats. 
@@ -103,7 +104,7 @@ echo 'plink2 --bfile /scratch/UKBB/imputed-500k_V3/ukb_imp_allCHRs_v3_pruned_MAF
 ```
 - Extraction of the genotyped SNPs started to run on servers on 8:30 PM Wednesday 05-Oct-2022.
 
-#### Sample file
+### Sample file
 - Creating sample file from VCF to be used for REGENIE GWAS steps:
 
 ```bash
@@ -126,7 +127,7 @@ grep -wFf pheno.sample genotypedUKBB.sample | wc -l
 462,935
 ```
 
-#### Running GWAS using REGENIE
+### Running GWAS using REGENIE
 - Still trying to figure out what's wrong with the sample file!! Step 1 is pending to recieve a correct sample ids compaible with QC-ed genotyped and phenoyped data (12-Oct-2022 - 14-Oct-2022 - Fucking .sample file!!!!! 18-10-2022). 
 
 - By changing the order of the columns and seperating the sample ids in .fam file, the step 1 of GWAS using REGENIE on the UKBB genotyped SNPs lunched successfully! Oh, finally done (lunching time: Wed 17:50, 19-10-2022; finishing time: Saturday 07:02, 22-Oct-2022).
@@ -141,8 +142,8 @@ cat out_step1.txt | sarrayscript -p batch -c 4 --mem-per-cpu=65536 -J UKBB_step1
 cat out_step2.txt | sarrayscript -p batch --mem-per-cpu=8192 -J UKBB_step2.sh
 ```
 
-#### Controlling genomic inflation of the GWAS summary results
-# QQ- and Manhattan plots
+### Controlling genomic inflation in GWAS results
+#### QQ- and Manhattan plots
 ```bash
 sbatch --mem=32768 --wrap './qqplot.R ~/projects/UKBB_Ryo/output/GWAS_Pheno2.regenie.gz Pheno2 ~/projects/UKBB_Ryo/output'
 ```
