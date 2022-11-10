@@ -3,9 +3,9 @@ Running GWAS on Kidney's latent phenotypes via REGENIE v3.1.3.gz!
 
 * [Genotype preparation](#genotype-preparation)
 * [Sample file](#sample-file)
-* [Running GWAS using REGENIE](#running-GWAS-using-REGENIE)
-* [Controlling genomic inflation of the GWAS summary results](#controlling-genomic-inflation-in-GWAS-results)
- * [QQ- and Manhattan plots](#QQ-and-Manhattan-plots)
+* [Running GWAS](#running-GWAS)
+* [Controlling genomic inflation in GWAS results](#controlling-genomic-inflation-in-GWAS-results)
+ * [QQ and Manhattan plots](#QQ-and-Manhattan-plots)
 
 ### Genotype preparation
 - In qcUKBB.sh you'll find the commands for format conversion of UKBB genotype file (BGEN) using plink.
@@ -127,7 +127,7 @@ grep -wFf pheno.sample genotypedUKBB.sample | wc -l
 462,935
 ```
 
-### Running GWAS using REGENIE
+### Running GWAS
 - Still trying to figure out what's wrong with the sample file!! Step 1 is pending to recieve a correct sample ids compaible with QC-ed genotyped and phenoyped data (12-Oct-2022 - 14-Oct-2022 - Fucking .sample file!!!!! 18-10-2022). 
 
 - By changing the order of the columns and seperating the sample ids in .fam file, the step 1 of GWAS using REGENIE on the UKBB genotyped SNPs lunched successfully! Oh, finally done (lunching time: Wed 17:50, 19-10-2022; finishing time: Saturday 07:02, 22-Oct-2022).
@@ -143,7 +143,7 @@ cat out_step2.txt | sarrayscript -p batch --mem-per-cpu=8192 -J UKBB_step2.sh
 ```
 
 ### Controlling genomic inflation in GWAS results
-#### QQ- and Manhattan plots
+#### QQ and Manhattan plots
 ```bash
 sbatch --mem=32768 --wrap './qqplot.R ~/projects/UKBB_Ryo/output/GWAS_Pheno2.regenie.gz Pheno2 ~/projects/UKBB_Ryo/output'
 ```
