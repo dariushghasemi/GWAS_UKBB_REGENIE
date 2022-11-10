@@ -1,6 +1,12 @@
 # GWAS_UKBB_REGENIE
 Running GWAS on Kidney's latent phenotypes via REGENIE v3.1.3.gz!
 
+* [Sample file](#sample file)
+* [Running GWAS using REGENIE](#running GWAS using REGENIE)
+* [Controlling genomic inflation of the GWAS summary results](#controlling genomic inflation of the GWAS summary results)
+* [Genotype preparation](#genotype preparation)
+
+#### Genotype preparation
 - In qcUKBB.sh you'll find the commands for format conversion of UKBB genotype file (BGEN) using plink.
 
 - Fo Step 1 of GWAS via REGENIE, we need a merged file contating all the genotypes from autosomes (chromosome 1 to 22) in one single file in BGEN or plink{.bed/.bam/.fam) formats. 
