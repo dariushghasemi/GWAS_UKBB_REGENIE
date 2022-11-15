@@ -147,6 +147,7 @@ cat out_step2.txt | sarrayscript -p batch --mem-per-cpu=8192 -J UKBB_step2.sh
 ```bash
 sbatch --mem=32768 --wrap './qqplot.R ~/projects/UKBB_Ryo/output/GWAS_Pheno2.regenie.gz Pheno2 ~/projects/UKBB_Ryo/output'
 ```
+- The GWAS part of this project has been closed on 02-Nov-2022.
 
 Dariush | 02.11.2022
 ______________________________________________________________________
